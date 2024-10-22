@@ -19,6 +19,6 @@ services:
     ports:
       - 8071:8069
     volumes:
-      - C:\docker\vilaexplorer\odoo-data:/var/lib/odoo
-      - C:\docker\vilaexplorer\addons:/mnt/extra-addons
-      - C:\docker\vilaexplorer\config:/etc/odoo
+      - D:\docker\docker\vilaexplorer\odoo-data:/var/lib/odoo
+      - D:\docker\docker\vilaexplorer\addons:/mnt/extra-addons
+      - D:\docker\docker\vilaexplorer\config:/etc/odoo
