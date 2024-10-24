@@ -7,9 +7,7 @@ services:
       POSTGRES_PASSWORD: odoo
       POSTGRES_DB: postgres
     volumes:
-      # - C:\docker\vilaexplorer\odoo-db:/var/lib/postgresql/data
-      # CHRISTIAN
-      - C:\docker\docker\vilaexplorer\odoo-db:/var/lib/postgresql/data
+      - C:\docker\vilaexplorer\odoo-db:/var/lib/postgresql/data
     networks:
       - default
     ports:
@@ -21,11 +19,6 @@ services:
     ports:
       - 8071:8069
     volumes:
-      # ANGEL
-      # - D:\docker\docker\vilaexplorer\odoo-data:/var/lib/odoo
-      # - D:\docker\docker\vilaexplorer\addons:/mnt/extra-addons
-      # - D:\docker\docker\vilaexplorer\config:/etc/odoo
-      #CHIRSTIAN
-      - C:\docker\docker\vilaexplorer\odoo-data:/var/lib/odoo
-      - C:\docker\docker\vilaexplorer\addons:/mnt/extra-addons
-      - C:\docker\docker\vilaexplorer\config:/etc/odoo
+      - C:\docker\vilaexplorer\odoo-data:/var/lib/odoo
+      - C:\docker\vilaexplorer\addons:/mnt/extra-addons
+      - C:\docker\vilaexplorer\config:/etc/odoo
