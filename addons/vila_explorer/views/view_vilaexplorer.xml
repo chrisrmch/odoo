@@ -1,0 +1,44 @@
+<odoo>
+  <data>
+    
+    <record id="action_open_usuarios" model="ir.actions.act_window">
+        <field name="name">usuarios</field>
+        <field name="res_model">vila_explorer.usuarios</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_open_fiesta_tradicion" model="ir.actions.act_window">
+        <field name="name">fiesta_tradicion</field>
+        <field name="res_model">vila_explorer.fiesta_tradicion</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_open_gastronomia" model="ir.actions.act_window">
+        <field name="name">gastronomia</field>
+        <field name="res_model">vila_explorer.gastronomia</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_principal" name="Vila Explorer"/>
+    
+    <menuitem id="menu_horizontal1" name="Usuarios" parent="menu_principal"/>
+    <menuitem id="menu_horizontal2" name="Fiesta tradicion" parent="menu_principal"/>
+    <menuitem id="menu_horizontal3" name="Gastronomía" parent="menu_principal"/>
+
+    <menuitem id="menu_vertical_usuarios1" name="Administrador" parent="menu_horizontal1" action="action_open_usuarios"/>
+    <menuitem id="menu_vertical_usuarios2" name="Redactor" parent="menu_horizontal1" action="action_open_usuarios"/>
+    <menuitem id="menu_vertical_usuarios3" name="Cliente" parent="menu_horizontal1" action="action_open_usuarios"/>
+
+    <menuitem id="menu_vertical_fiesta_tradicion1" name="Fiesta Tradición" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
+    <!-- <menuitem id="menu_vertical_fiesta_tradicion2" name="San Miguel" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
+    <menuitem id="menu_vertical_fiesta_tradicion3" name="Lagrimas Santa Marta" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
+    <menuitem id="menu_vertical_fiesta_tradicion4" name="Carta Pobla" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
+    <menuitem id="menu_vertical_fiesta_tradicion5" name="Virgen Del Carmen" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
+    <menuitem id="menu_vertical_fiesta_tradicion6" name="San Juan" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/> -->
+    
+    <menuitem id="menu_vertical_gastronomia1" name="Gastronomía" parent="menu_horizontal3" action="action_open_gastronomia"/>
+    <!-- <menuitem id="menu_vertical_gastronomia2" name="Arroz Seco" parent="menu_horizontal3" action="action_open_gastronomia"/>
+    <menuitem id="menu_vertical_gastronomia3" name="Arroz Meloso" parent="menu_horizontal3" action="action_open_gastronomia"/>
+    <menuitem id="menu_vertical_gastronomia4" name="Tapas Típicas" parent="menu_horizontal3" action="action_open_gastronomia"/>
+    <menuitem id="menu_vertical_gastronomia5" name="Postres" parent="menu_horizontal3" action="action_open_gastronomia"/>
+    <menuitem id="menu_vertical_gastronomia6" name="Helados" parent="menu_horizontal3" action="action_open_gastronomia"/> -->
+  </data>
+</odoo>
