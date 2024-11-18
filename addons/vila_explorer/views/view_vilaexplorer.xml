@@ -1,44 +1,394 @@
 <odoo>
   <data>
-    
+
+    <!-- Definición de la vista Tree para Roles -->
+    <record id="view_vilaexplorer_rol_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.rol.tree</field>
+      <field name="model">vilaexplorer.rol</field>
+      <field name="arch" type="xml">
+        <tree string="Roles">
+          <field name="nombre" string="Nombre del Rol" width="40%"/>
+          <field name="activo" string="Activo" width="20%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Roles -->
+    <record id="view_vilaexplorer_rol_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.rol.form</field>
+      <field name="model">vilaexplorer.rol</field>
+      <field name="arch" type="xml">
+        <form string="Rol">
+          <sheet>
+            <group>
+              <field name="nombre"/>
+              <field name="activo"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Roles -->
+    <record id="action_open_roles" model="ir.actions.act_window">
+      <field name="name">Roles</field>
+      <field name="res_model">vilaexplorer.rol</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_rol_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Usuarios -->
+    <record id="view_vilaexplorer_usuario_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.usuario.tree</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <tree string="Usuarios">
+          <field name="nombre" string="Nombre" width="20%"/>
+          <field name="email" string="Correo Electrónico" width="20%"/>
+          <field name="activo" string="Activo" width="10%"/>
+          <field name="fecha_creacion" string="Fecha de Creación" width="20%"/>
+          <field name="rol_actual_id" string="Rol Actual" width="20%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Usuarios -->
+    <record id="view_vilaexplorer_usuario_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.usuario.form</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <form string="Usuario">
+          <sheet>
+            <group>
+              <field name="nombre"/>
+              <field name="email"/>
+              <field name="password" password="True"/>
+              <field name="activo"/>
+              <field name="fecha_creacion"/>
+              <field name="rol_actual_id"/>
+              <!-- Mostrar roles históricos -->
+              <field name="roles">
+                <tree string="Roles Históricos">
+                  <field name="rol_id"/>
+                  <field name="fecha_de_asignacion"/>
+                </tree>
+              </field>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Usuarios -->
     <record id="action_open_usuarios" model="ir.actions.act_window">
-        <field name="name">usuarios</field>
-        <field name="res_model">vila_explorer.usuarios</field>
-        <field name="view_mode">tree,form</field>
+      <field name="name">Usuarios</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_usuario_tree"/>
     </record>
+
+    <record id="view_vilaexplorer_fiesta_tradicion_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.fiesta_tradicion.tree</field>
+      <field name="model">vilaexplorer.fiesta_tradicion</field>
+      <field name="arch" type="xml">
+        <tree string="Fiestas y Tradiciones">
+          <field name="nombre" string="Nombre" width="30%"/>
+          <field name="descripcion" string="Descripción" width="30%"/>
+          <!-- Cambiar el campo de imagen para usar image_128 proporcionado por image.mixin -->
+          <field name="image_128" widget="image" string="Imagen" class="oe_avatar"/>
+          <field name="autor_id" string="Autor" width="20%"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_vilaexplorer_fiesta_tradicion_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.fiesta_tradicion.form</field>
+      <field name="model">vilaexplorer.fiesta_tradicion</field>
+      <field name="arch" type="xml">
+        <form string="Fiesta o Tradición">
+          <sheet>
+            <group>
+              <field name="nombre"/>
+              <field name="descripcion"/>
+              <field name="image_1920" widget="image" class="oe_avatar" style="max-width: 256px; max-height: 256px;"/>
+              <field name="autor_id"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Fiestas y Tradiciones -->
     <record id="action_open_fiesta_tradicion" model="ir.actions.act_window">
-        <field name="name">fiesta_tradicion</field>
-        <field name="res_model">vila_explorer.fiesta_tradicion</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <record id="action_open_gastronomia" model="ir.actions.act_window">
-        <field name="name">gastronomia</field>
-        <field name="res_model">vila_explorer.gastronomia</field>
-        <field name="view_mode">tree,form</field>
+      <field name="name">Fiestas y Tradiciones</field>
+      <field name="res_model">vilaexplorer.fiesta_tradicion</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_fiesta_tradicion_tree"/>
     </record>
 
+    <!-- Definición de la vista Tree para Platos -->
+    <record id="view_vilaexplorer_plato_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.plato.tree</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <tree string="Platos">
+          <field name="nombre" string="Nombre del Plato" width="20%"/>
+          <field name="descripcion" string="Descripción" width="30%"/>
+          <field name="tipo_plato_id" string="Tipo de Plato" width="20%"/>
+          <field name="estado" string="Estado de Aprobación" width="20%"/>
+          <field name="autor_id" string="Autor" width="10%"/>
+          <field name="image_128" widget="image" string="Imagen" class="oe_avatar"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Platos -->
+    <record id="view_vilaexplorer_plato_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.plato.form</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <form string="Plato">
+          <sheet>
+            <group>
+              <field name="nombre"/>
+              <field name="descripcion"/>
+              <field name="ingredientes"/>
+              <field name="receta"/>
+              <field name="estado"/>
+              <field name="tipo_plato_id"/>
+              <field name="autor_id"/>
+              <field name="aprobador_id"/>
+              <!-- Utilizar image_1920 para mostrar la imagen en la vista tipo Form -->
+              <field name="image_1920" widget="image" class="oe_avatar" style="max-width: 256px; max-height: 256px;"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Platos -->
+    <record id="action_open_plato" model="ir.actions.act_window">
+      <field name="name">Platos</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_plato_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Categorías de Plato -->
+    <record id="view_vilaexplorer_categoria_plato_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.categoria_plato.tree</field>
+      <field name="model">vilaexplorer.categoria_plato</field>
+      <field name="arch" type="xml">
+        <tree string="Categorías de Plato">
+          <field name="nombre_categoria" string="Nombre de la Categoría" width="40%"/>
+          <field name="activo" string="Activo" width="20%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Categorías de Plato -->
+    <record id="view_vilaexplorer_categoria_plato_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.categoria_plato.form</field>
+      <field name="model">vilaexplorer.categoria_plato</field>
+      <field name="arch" type="xml">
+        <form string="Categoría de Plato">
+          <sheet>
+            <group>
+              <field name="nombre_categoria"/>
+              <field name="activo"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Categorías de Plato -->
+    <record id="action_open_categoria_plato" model="ir.actions.act_window">
+      <field name="name">Categorías de Plato</field>
+      <field name="res_model">vilaexplorer.categoria_plato</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_categoria_plato_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Tipos de Plato -->
+    <record id="view_vilaexplorer_tipo_plato_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.tipo_plato.tree</field>
+      <field name="model">vilaexplorer.tipo_plato</field>
+      <field name="arch" type="xml">
+        <tree string="Tipos de Plato">
+          <field name="nombre_tipo" string="Nombre del Tipo de Plato" width="40%"/>
+          <field name="categoria_plato_id" string="Categoría del Plato" width="30%"/>
+          <field name="activo" string="Activo" width="20%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Tipos de Plato -->
+    <record id="view_vilaexplorer_tipo_plato_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.tipo_plato.form</field>
+      <field name="model">vilaexplorer.tipo_plato</field>
+      <field name="arch" type="xml">
+        <form string="Tipo de Plato">
+          <sheet>
+            <group>
+              <field name="nombre_tipo"/>
+              <field name="categoria_plato_id"/>
+              <field name="activo"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Tipos de Plato -->
+    <record id="action_open_tipo_plato" model="ir.actions.act_window">
+      <field name="name">Tipos de Plato</field>
+      <field name="res_model">vilaexplorer.tipo_plato</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_tipo_plato_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Artículos -->
+    <record id="view_vilaexplorer_articulo_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.articulo.tree</field>
+      <field name="model">vilaexplorer.articulo</field>
+      <field name="arch" type="xml">
+        <tree string="Artículos">
+          <field name="titulo" string="Título" width="30%"/>
+          <field name="contenido" string="Contenido" width="30%"/>
+          <field name="autor_id" string="Autor" width="30%"/>
+          <field name="fecha_publicacion" string="Fecha de publicación" width="30%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Artículos -->
+    <record id="view_vilaexplorer_articulo_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.articulo.form</field>
+      <field name="model">vilaexplorer.articulo</field>
+      <field name="arch" type="xml">
+        <form string="Artículo">
+          <sheet>
+            <group>
+              <field name="titulo"/>
+              <field name="contenido"/>
+              <field name="fecha_publicacion"/>
+              <field name="autor_id"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Artículos -->
+    <record id="action_open_articulos" model="ir.actions.act_window">
+      <field name="name">Artículos</field>
+      <field name="res_model">vilaexplorer.articulo</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_articulo_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Lugares de Interés -->
+    <record id="view_vilaexplorer_lugar_interes_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.lugar_interes.tree</field>
+      <field name="model">vilaexplorer.lugar_interes</field>
+      <field name="arch" type="xml">
+        <tree string="Lugares de Interés">
+          <field name="nombre_lugar" string="Nombre del Lugar" width="30%"/>
+          <field name="tipo_lugar_id" string="Tipo de Lugar" width="20%"/>
+          <field name="fecha_alta" string="Fecha de Alta" width="20%"/>
+          <field name="activo" string="Activo" width="10%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Lugares de Interés -->
+    <record id="view_vilaexplorer_lugar_interes_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.lugar_interes.form</field>
+      <field name="model">vilaexplorer.lugar_interes</field>
+      <field name="arch" type="xml">
+        <form string="Lugar de Interés">
+          <sheet>
+            <group>
+              <field name="nombre_lugar"/>
+              <field name="descripcion"/>
+              <field name="fecha_alta"/>
+              <field name="imagen"/>
+              <field name="tipo_lugar_id"/>
+              <field name="activo"/>
+              <field name="coordenadas_ids"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Lugares de Interés -->
+    <record id="action_open_lugar_interes" model="ir.actions.act_window">
+      <field name="name">Lugares de Interés</field>
+      <field name="res_model">vilaexplorer.lugar_interes</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_lugar_interes_tree"/>
+    </record>
+
+    <!-- Definición de la vista Tree para Tipos de Lugar de Interés -->
+    <record id="view_vilaexplorer_tipo_lugar_interes_tree" model="ir.ui.view">
+      <field name="name">vilaexplorer.tipo_lugar_interes.tree</field>
+      <field name="model">vilaexplorer.tipo_lugar_interes</field>
+      <field name="arch" type="xml">
+        <tree string="Tipos de Lugar de Interés">
+          <field name="nombre_tipo" string="Nombre del Tipo de Lugar" width="40%"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Definición de la vista Form para Tipos de Lugar de Interés -->
+    <record id="view_vilaexplorer_tipo_lugar_interes_form" model="ir.ui.view">
+      <field name="name">vilaexplorer.tipo_lugar_interes.form</field>
+      <field name="model">vilaexplorer.tipo_lugar_interes</field>
+      <field name="arch" type="xml">
+        <form string="Tipo de Lugar de Interés">
+          <sheet>
+            <group>
+              <field name="nombre_tipo"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Tipos de Lugar de Interés -->
+    <record id="action_open_tipo_lugar_interes" model="ir.actions.act_window">
+      <field name="name">Tipos de Lugar de Interés</field>
+      <field name="res_model">vilaexplorer.tipo_lugar_interes</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_vilaexplorer_tipo_lugar_interes_tree"/>
+    </record>
+
+
+
+    <!-- TITULO EN GRANDE DEL MENU -->
     <menuitem id="menu_principal" name="Vila Explorer"/>
-    
-    <menuitem id="menu_horizontal1" name="Usuarios" parent="menu_principal"/>
-    <menuitem id="menu_horizontal2" name="Fiesta tradicion" parent="menu_principal"/>
-    <menuitem id="menu_horizontal3" name="Gastronomía" parent="menu_principal"/>
 
-    <menuitem id="menu_vertical_usuarios1" name="Administrador" parent="menu_horizontal1" action="action_open_usuarios"/>
-    <menuitem id="menu_vertical_usuarios2" name="Redactor" parent="menu_horizontal1" action="action_open_usuarios"/>
-    <menuitem id="menu_vertical_usuarios3" name="Cliente" parent="menu_horizontal1" action="action_open_usuarios"/>
+    <!-- MENUS HORIZONTALES -->
+    <menuitem id="menu_usuarios" name="Usuarios" parent="menu_principal"/>
+    <menuitem id="menu_tradiciones" name="Tradiciones" parent="menu_principal" action="action_open_fiesta_tradicion"/>
+    <menuitem id="menu_gastronomia" name="Gastronomía" parent="menu_principal"/>
+    <menuitem id="menu_articulos" name="Articulos" parent="menu_principal" action="action_open_articulos"/>
+    <menuitem id="lugar_interes" name="Lugares de interés" parent="menu_principal"/>
 
-    <menuitem id="menu_vertical_fiesta_tradicion1" name="Fiesta Tradición" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
-    <!-- <menuitem id="menu_vertical_fiesta_tradicion2" name="San Miguel" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
-    <menuitem id="menu_vertical_fiesta_tradicion3" name="Lagrimas Santa Marta" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
-    <menuitem id="menu_vertical_fiesta_tradicion4" name="Carta Pobla" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
-    <menuitem id="menu_vertical_fiesta_tradicion5" name="Virgen Del Carmen" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/>
-    <menuitem id="menu_vertical_fiesta_tradicion6" name="San Juan" parent="menu_horizontal2" action="action_open_fiesta_tradicion"/> -->
-    
-    <menuitem id="menu_vertical_gastronomia1" name="Gastronomía" parent="menu_horizontal3" action="action_open_gastronomia"/>
-    <!-- <menuitem id="menu_vertical_gastronomia2" name="Arroz Seco" parent="menu_horizontal3" action="action_open_gastronomia"/>
-    <menuitem id="menu_vertical_gastronomia3" name="Arroz Meloso" parent="menu_horizontal3" action="action_open_gastronomia"/>
-    <menuitem id="menu_vertical_gastronomia4" name="Tapas Típicas" parent="menu_horizontal3" action="action_open_gastronomia"/>
-    <menuitem id="menu_vertical_gastronomia5" name="Postres" parent="menu_horizontal3" action="action_open_gastronomia"/>
-    <menuitem id="menu_vertical_gastronomia6" name="Helados" parent="menu_horizontal3" action="action_open_gastronomia"/> -->
+    <!-- SUBMENU DE USUARIOS -->
+    <menuitem id="submenu_usuarios_roles" name="Roles" parent="menu_usuarios" action="action_open_roles"/>
+    <menuitem id="submenu_usuarios" name="Usuarios" parent="menu_usuarios" action="action_open_usuarios"/>
+
+    <!-- SUBMENU DE GASTRONOMIA -->
+    <menuitem id="submenu_gastronomia_plato" name="Platos" parent="menu_gastronomia" action="action_open_plato"/>
+    <menuitem id="submenu_gastronomia_categorias" name="Categorías generales" parent="menu_gastronomia" action="action_open_categoria_plato"/>
+    <menuitem id="submenu_gastronomia_subcategorias" name="Categorías específicas" parent="menu_gastronomia" action="action_open_tipo_plato"/>
+
+    <!-- SUBMENU DE LUGARES DE INTERÉS -->
+    <menuitem id="submenu_lugar_interes" name="Lugaeres de interes" parent="lugar_interes" action="action_open_lugar_interes"/>
+    <menuitem id="submenu_lugar_interes_categorias" name="Categorías" parent="lugar_interes" action="action_open_tipo_lugar_interes"/>
+
   </data>
 </odoo>
