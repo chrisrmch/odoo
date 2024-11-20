@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api # type: ignore
 
 class FiestaTradicion(models.Model):
     _name = 'vilaexplorer.fiesta_tradicion'
