@@ -10,6 +10,6 @@ class UsuarioRol(models.Model):
     _rec_name = 'usuario_id'
     
     id = fields.Integer(string='ID', required=True, index=True, default=lambda self: self.env['ir.sequence'].next_by_code('vilaexplorer.usuario_rol'))
-    usuario_id = fields.Many2one(comodel_name='vilaexplorer.usuario', string='Usuario', required=True)
-    rol_id = fields.Many2one(comodel_name='vilaexplorer.rol', string='Rol', required=True)
-    fecha_de_asignacion = fields.Datetime(string='Fecha de Asignación', default=lambda self: fields.Datetime.now())
+    usuario_id = fields.Many2one('vilaexplorer.usuario', string='Usuario', required=True)
+    rol_id = fields.Many2one('vilaexplorer.rol', string='Rol', required=True)
+    fecha_de_asignacion = fields.Date(string='Fecha de Asignación', default=fields.Date.today)

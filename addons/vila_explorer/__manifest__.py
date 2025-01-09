@@ -24,8 +24,9 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         # 'views/views.xml',
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'views/view_vilaexplorer.xml',
     ],
     # only loaded in demonstration mode
