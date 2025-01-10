@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Categoría del módulo -->
+    <!-- Categoría del módulo. Se representa como un titulo-->
     <record id="module_category_vilaexplorer" model="ir.module.category">
         <field name="name">Vila Explorer</field>
         <field name="sequence">1</field>
     </record>
 
-    <record id="module_category_vilaexplorer_vilaexplorer" model="ir.module.category">
-        <field name="name">Vila Explorer</field>
+    <!-- Subcategoría de Administradores -->
+    <record id="module_category_vilaexplorer_admin" model="ir.module.category">
+        <field name="name">Administradores</field>
+        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
+        <field name="sequence">2</field>
+    </record>
+
+    <!-- Subcategoría de Clientes -->
+    <record id="module_category_vilaexplorer_client" model="ir.module.category">
+        <field name="name">Clientes</field>
+        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
         <field name="sequence">3</field>
     </record>
 
-    <!-- Grupos de Vila Explorer -->
-    <record id="group_vilaexplorer_usuario" model="res.groups">
-        <field name="name">Usuario: Solo puede ver sus propias recetas</field>
-        <field name="category_id" ref="module_category_vilaexplorer_vilaexplorer"/>
-        <field name="implied_ids" eval="[(3, ref('group_vilaexplorer_administrador')), (3, ref('group_vilaexplorer_redactor'))]"/>
+    <!-- Subcategoría de Redactores -->
+    <record id="module_category_vilaexplorer_editor" model="ir.module.category">
+        <field name="name">Redactores</field>
+        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
+        <field name="sequence">4</field>
     </record>
 
-    <record id="group_vilaexplorer_administrador" model="res.groups">
+    <!-- Grupo de Administradores -->
+    <record id="group_vilaexplorer_admin" model="res.groups">
         <field name="name">Administrador</field>
-        <field name="category_id" ref="module_category_vilaexplorer_vilaexplorer"/>
-        <field name="implied_ids" eval="[(3, ref('group_vilaexplorer_usuario')), (3, ref('group_vilaexplorer_redactor'))]"/>
+        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_admin"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Grupo con permisos completos para Vila Explorer.</field>
     </record>
 
-    <record id="group_vilaexplorer_redactor" model="res.groups">
-        <field name="name">Redactor: puede aceptar recetas y crear artículos</field>
-        <field name="category_id" ref="module_category_vilaexplorer_vilaexplorer"/>
-        <field name="implied_ids" eval="[(3, ref('group_vilaexplorer_usuario')), (3, ref('group_vilaexplorer_administrador'))]"/>
+    <!-- Grupo de Clientes -->
+    <record id="group_vilaexplorer_client" model="res.groups">
+        <field name="name">Cliente</field>
+        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_client"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Grupo con acceso limitado a funcionalidades para clientes.</field>
+    </record>
+
+    <!-- Grupo de Redactores -->
+    <record id="group_vilaexplorer_editor" model="res.groups">
+        <field name="name">Redactor</field>
+        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_editor"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Grupo con permisos para gestionar contenido.</field>
     </record>
 
     <!-- Record rules para el modelo `favoritos` -->
