@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields  # type: ignore
+import logging
+from odoo import models, fields, api # type: ignore
 
+_logger = logging.getLogger(__name__)
 
 # Modelo Rol
 class Rol(models.Model):

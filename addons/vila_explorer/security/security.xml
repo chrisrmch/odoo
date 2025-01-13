@@ -1,36 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Categoría del módulo. Se representa como un titulo-->
+    <!-- Categoría principal -->
     <record id="module_category_vilaexplorer" model="ir.module.category">
         <field name="name">Vila Explorer</field>
         <field name="sequence">1</field>
     </record>
 
-    <!-- Subcategoría de Administradores -->
-    <record id="module_category_vilaexplorer_admin" model="ir.module.category">
-        <field name="name">Administradores</field>
-        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
-        <field name="sequence">2</field>
-    </record>
-
-    <!-- Subcategoría de Clientes -->
-    <record id="module_category_vilaexplorer_client" model="ir.module.category">
-        <field name="name">Clientes</field>
-        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
-        <field name="sequence">3</field>
-    </record>
-
-    <!-- Subcategoría de Redactores -->
-    <record id="module_category_vilaexplorer_editor" model="ir.module.category">
-        <field name="name">Redactores</field>
-        <field name="parent_id" ref="vilaexplorer.module_category_vilaexplorer"/>
-        <field name="sequence">4</field>
-    </record>
-
     <!-- Grupo de Administradores -->
     <record id="group_vilaexplorer_admin" model="res.groups">
         <field name="name">Administrador</field>
-        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_admin"/>
+        <field name="category_id" ref="vila_explorer.module_category_vilaexplorer"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         <field name="comment">Grupo con permisos completos para Vila Explorer.</field>
     </record>
@@ -38,7 +17,7 @@
     <!-- Grupo de Clientes -->
     <record id="group_vilaexplorer_client" model="res.groups">
         <field name="name">Cliente</field>
-        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_client"/>
+        <field name="category_id" ref="vila_explorer.module_category_vilaexplorer"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         <field name="comment">Grupo con acceso limitado a funcionalidades para clientes.</field>
     </record>
@@ -46,68 +25,69 @@
     <!-- Grupo de Redactores -->
     <record id="group_vilaexplorer_editor" model="res.groups">
         <field name="name">Redactor</field>
-        <field name="category_id" ref="vilaexplorer.module_category_vilaexplorer_editor"/>
+        <field name="category_id" ref="vila_explorer.module_category_vilaexplorer"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         <field name="comment">Grupo con permisos para gestionar contenido.</field>
     </record>
 
-    <!-- Record rules para el modelo `favoritos` -->
     <record id="favoritos_rule_usuario" model="ir.rule">
         <field name="name">Favoritos del usuario</field>
         <field name="model_id" ref="model_vilaexplorer_favorito"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_usuario'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="favoritos_rule_administrador" model="ir.rule">
         <field name="name">Todos los favoritos</field>
         <field name="model_id" ref="model_vilaexplorer_favorito"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_administrador'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
     </record>
 
-    <!-- Record rules para el modelo `articulo` -->
     <record id="articulo_administrador_rule" model="ir.rule">
         <field name="name">Todos los artículos</field>
         <field name="model_id" ref="model_vilaexplorer_articulo"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_administrador'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
     </record>
 
     <record id="articulo_redactor_rule" model="ir.rule">
         <field name="name">Gestionar artículos</field>
         <field name="model_id" ref="model_vilaexplorer_articulo"/>
         <field name="domain_force">[(1, '=',1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_redactor'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_editor'))]"/>
     </record>
 
-    <!-- Record rules para el modelo `plato` -->
+    <!-- Record rules para el modelo `plato`, en la tabla ir.rule se 
+    crea un nuevo registro para el modelo vilaexplorer.plato 
+    donde un usuario solo puede ver sus propias recetas creadas
+    create.uid = user.id
+    -->
     <record id="plato_usuario_rule" model="ir.rule">
         <field name="name">Platos propios</field>
         <field name="model_id" ref="model_vilaexplorer_plato"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_usuario'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="plato_administrador_rule" model="ir.rule">
         <field name="name">Todos los platos</field>
         <field name="model_id" ref="model_vilaexplorer_plato"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_administrador'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
     </record>
 
-    <!-- Record rules para el modelo `puntuacion` -->
     <record id="puntuacion_usuario_rule" model="ir.rule">
         <field name="name">Puntuaciones propias</field>
         <field name="model_id" ref="model_vilaexplorer_puntuacion"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_usuario'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="puntuacion_administrador_rule" model="ir.rule">
         <field name="name">Todas las puntuaciones</field>
         <field name="model_id" ref="model_vilaexplorer_puntuacion"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_administrador'))]"/>
+        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
     </record>
 </odoo>
