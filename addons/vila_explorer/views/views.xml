@@ -49,12 +49,10 @@
     <menuitem name="Menu 1" id="vila_explorer.menu_1" parent="vila_explorer.menu_root"/>
     <menuitem name="Menu 2" id="vila_explorer.menu_2" parent="vila_explorer.menu_root"/>
 
-    <!-- actions -->  
+     <!-- actions -->  
 
-    <menuitem name="List" id="vila_explorer.menu_1_list" parent="vila_explorer.menu_1"
-              action="vila_explorer.action_window"/>
-    <menuitem name="Server to list" id="vila_explorer" parent="vila_explorer.menu_2"
-              action="vila_explorer.action_server"/>
+    <menuitem name="List" id="vila_explorer.menu_1_list" parent="vila_explorer.menu_1" action="vila_explorer.action_window"/>
+    <menuitem name="Server to list" id="vila_explorer" parent="vila_explorer.menu_2" action="vila_explorer.action_server"/>
 
   </data>
 </odoo>

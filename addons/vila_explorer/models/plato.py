@@ -67,6 +67,10 @@ class Plato(models.Model):
         string='Aprobador',
         help='Usuario que aprobó el plato.'
     )
+    puntuacion = fields.One2many(
+        comodel_name = 'vilaexplorer.puntuacion',
+        string='Aprobador'
+    )
 
     @api.constrains('nombre')
     def _check_nombre_length(self):
