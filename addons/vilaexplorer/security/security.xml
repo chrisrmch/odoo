@@ -34,28 +34,28 @@
         <field name="name">Favoritos del usuario</field>
         <field name="model_id" ref="model_vilaexplorer_favorito"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="favoritos_rule_administrador" model="ir.rule">
         <field name="name">Todos los favoritos</field>
         <field name="model_id" ref="model_vilaexplorer_favorito"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_admin'))]"/>
     </record>
 
     <record id="articulo_administrador_rule" model="ir.rule">
         <field name="name">Todos los artículos</field>
         <field name="model_id" ref="model_vilaexplorer_articulo"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_admin'))]"/>
     </record>
 
     <record id="articulo_redactor_rule" model="ir.rule">
         <field name="name">Gestionar artículos</field>
         <field name="model_id" ref="model_vilaexplorer_articulo"/>
         <field name="domain_force">[(1, '=',1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_editor'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_editor'))]"/>
     </record>
 
     <!-- Record rules para el modelo `plato`, en la tabla ir.rule se 
@@ -67,27 +67,27 @@
         <field name="name">Platos propios</field>
         <field name="model_id" ref="model_vilaexplorer_plato"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="plato_administrador_rule" model="ir.rule">
         <field name="name">Todos los platos</field>
         <field name="model_id" ref="model_vilaexplorer_plato"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_admin'))]"/>
     </record>
 
     <record id="puntuacion_usuario_rule" model="ir.rule">
         <field name="name">Puntuaciones propias</field>
         <field name="model_id" ref="model_vilaexplorer_puntuacion"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_client'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_client'))]"/>
     </record>
 
     <record id="puntuacion_administrador_rule" model="ir.rule">
         <field name="name">Todas las puntuaciones</field>
         <field name="model_id" ref="model_vilaexplorer_puntuacion"/>
         <field name="domain_force">[(1, '=', 1)]</field>
-        <field name="groups" eval="[(4, ref('group_vilaexplorer_admin'))]"/>
+        <field name="groups" eval="[(4, ref('vilaexplorer.group_vilaexplorer_admin'))]"/>
     </record>
 </odoo>

@@ -2,13 +2,14 @@
 
 from odoo import models, fields # type: ignore
 
+
 # Modelo LugarInteres
 class LugarInteres(models.Model):
     _name = 'vilaexplorer.lugar_interes'
     _description = 'Entidad que representa un lugar de interés turístico'
-    _rec_name = 'nombre_lugar'
+    _rec_name='nombre_lugar'
     
-    id_lugar_interes = fields.Integer(string='ID Lugar de Interés', required=True, index=True, default=lambda self: self.env['ir.sequence'].next_by_code('vilaexplorer.lugar_interes'))
+    id_lugar_interes = fields.Integer(string='ID Lugar de Interés', readonly=True,  required=True, index=True, default=lambda self: self.env['ir.sequence'].next_by_code('vilaexplorer.lugar_interes'))
     nombre_lugar = fields.Char(string='Nombre del Lugar', required=True)
     descripcion = fields.Text(string='Descripción', required=True)
     fecha_alta = fields.Date(string='Fecha de Alta', required=True, default=fields.Date.today)

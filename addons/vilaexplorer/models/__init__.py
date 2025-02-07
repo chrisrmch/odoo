@@ -14,3 +14,4 @@ from . import tipoLugarInteres
 from . import tipoPlato
 from . import usuario
 from . import usuarioRol
+from . import resUsers
