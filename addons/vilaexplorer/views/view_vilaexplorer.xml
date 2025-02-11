@@ -45,7 +45,7 @@
         <tree string="Usuarios">
           <field name="nombre" widget="badge" decoration-success="activo == True" decoration-danger="activo == False" string="Nombre" width="10%"/>
           <field name="email" string="Correo Electrónico" width="20%"/>
-          <field name="activo" string="Activo" width="5%"/>
+          <field name="activo" string="Activo" widget="boolean_toggle" width="5%"/>
           <field name="fecha_creacion" string="Fecha de Creación" width="10%"/>
           <field name="rol_actual_id" string="Rol Actual" width="10%"/>
           <field name="image_1920" widget="image" string="Foto de perfil" options="{'size':[100, 80]}"/>
@@ -134,12 +134,13 @@
       <field name="model">vilaexplorer.plato</field>
       <field name="arch" type="xml">
         <tree string="Platos" decoration-muted="estado == False" decoration-success="estado == True">
-          <field name="nombre" widget="badge" decoration-danger="estado == False" decoration-success="estado == True" string="Nombre del Plato" width="20%"/>
-          <field name="descripcion" string="Descripción" width="30%"/>
-          <field name="tipo_plato_id" string="Tipo de Plato" width="20%"/>
-          <field name="estado" string="Estado de Aprobación" width="20%"/>
-          <field name="autor_id" string="Autor" width="10%"/>
-          <field name="image_128" widget="image" string="Imagen" class="oe_avatar"/>
+          <field name="nombre" widget="badge" decoration-danger="estado == False" decoration-success="estado == True" string="Nombre del Plato" width="15%"/>
+          <field name="descripcion" string="Descripción" width="20%"/>
+          <field name="tipo_plato_id" string="Tipo de Plato" width="15%"/>
+          <field name="estado" string="Estado de Aprobación" widget="boolean_toggle" width="10%"/>
+          <field name="autor_id" string="Autor" widget="many2one_clickable" width="10%" context="{'form_view_ref': 'vilaexplorer.usuario'}"/>
+          <field name="image_128" widget="image" string="Imagen" class="oe_avatar" options="{'size':[100, 80]}"/>
+          <field name="puntuacion" string="Puntuación" widget="progressbar" width="10%"/>
         </tree>
       </field>
     </record>
@@ -167,32 +168,8 @@
                     <field name="descripcion"/>
                   </div>
                   <div>
-                    <strong>Ingredientes:</strong>
-                    <field name="ingredientes"/>
-                  </div>
-                  <div>
-                    <strong>Receta:</strong>
-                    <field name="receta"/>
-                  </div>
-                  <div>
                     <strong>Estado:</strong>
-                    <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
-                  </div>
-                  <div>
-                    <strong>Fecha de aprobación:</strong>
-                    <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
-                  </div>
-                  <div>
-                    <strong>Tipo de plato:</strong>
-                    <field name="tipo_plato_id"/>
-                  </div>
-                  <div>
-                    <strong>Autor:</strong>
-                    <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
-                  </div>
-                  <div>
-                    <strong>Aprobador:</strong>
-                    <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                    <field name="estado" widget="boolean_toggle" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
                   </div>
                 </div>
               </div>
