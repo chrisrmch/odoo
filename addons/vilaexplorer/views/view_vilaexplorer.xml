@@ -389,25 +389,101 @@
       <field name="view_id" ref="view_vilaexplorer_articulo_tree"/>
     </record>
 
-       <!-- VISTA GRAPH -->
-
+    <!-- VISTA GRAPH - Platos por Año y Tipo -->
     <record id="view_plato_graph" model="ir.ui.view">
-      <field name="name">Vista Graficos de platos</field>
+      <field name="name">Vista Gráficos de Platos</field>
       <field name="model">vilaexplorer.plato</field>
       <field name="arch" type="xml">
-        <graph string="Graficos platos" type="pie">
+        <graph string="Gráficos de Platos" type="pie">
           <field name="fecha_aprobado" interval="year"/>
+          <field name="tipo_plato_id" groupby="tipo_plato_id"/>
           <field name="estado"/>
         </graph>
       </field>
     </record>
 
-    <!-- Acción para abrir la vista de Graficos -->
+    <!-- Platos por Estado (Aprobados vs No Aprobados) -->
+    <record id="view_plato_graph_estado" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Platos por Estado</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <graph string="Platos por Estado de Aprobación" type="pie">
+          <field name="estado" groupby="estado"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Platos Aprobados por Año -->
+    <record id="view_plato_graph_fecha_aprobado" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Platos Aprobados por Año</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <graph string="Platos Aprobados por Año" type="bar">
+          <field name="fecha_aprobado" interval="year"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Puntuación Promedio por Tipo de Plato -->
+    <record id="view_plato_graph_puntuacion" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Puntuación por Tipo de Plato</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <graph string="Puntuación Promedio por Tipo de Plato" type="pie">
+          <field name="tipo_plato_id" groupby="tipo_plato_id"/>
+          <field name="puntuacion" operator="avg"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Platos Creados por Autor -->
+    <record id="view_plato_graph_autor" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Platos por Autor</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <graph string="Platos por Autor" type="bar">
+          <field name="autor_id" groupby="autor_id"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Acciones para abrir las vistas gráficas -->
     <record id="action_open_graficos" model="ir.actions.act_window">
-      <field name="name">Artículos</field>
+      <field name="name">Gráficos de Platos</field>
       <field name="res_model">vilaexplorer.plato</field>
       <field name="view_mode">graph</field>
       <field name="view_id" ref="view_plato_graph"/>
+    </record>
+
+    <record id="action_open_graficos_estado" model="ir.actions.act_window">
+      <field name="name">Platos por Estado</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_plato_graph_estado"/>
+    </record>
+
+    <record id="action_open_graficos_fecha_aprobado" model="ir.actions.act_window">
+      <field name="name">Platos por Año</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_plato_graph_fecha_aprobado"/>
+    </record>
+
+    <record id="action_open_graficos_puntuacion" model="ir.actions.act_window">
+      <field name="name">Puntuación por Tipo de Plato</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_plato_graph_puntuacion"/>
+    </record>
+
+    <record id="action_open_graficos_autor" model="ir.actions.act_window">
+      <field name="name">Platos por Autor</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_plato_graph_autor"/>
     </record>
 
     <!-- Definición de la vista Tree para Lugares de Interés -->
@@ -487,6 +563,115 @@
       <field name="view_id" ref="view_vilaexplorer_tipo_lugar_interes_tree"/>
     </record>
 
+    <!-- Usuarios Activos vs. Inactivos -->
+    <record id="view_usuario_graph_activos" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Usuarios Activos</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Usuarios Activos vs. Inactivos" type="pie">
+          <field name="activo" groupby="activo"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Usuarios por Año de Creación -->
+    <record id="view_usuario_graph_creacion" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Usuarios por Año</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Usuarios por Año de Creación" type="bar">
+          <field name="fecha_creacion" interval="year"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Cantidad de Artículos por Usuario -->
+    <record id="view_usuario_graph_articulos" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Artículos por Usuario</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Artículos por Usuario" type="bar">
+          <field name="nombre" groupby="nombre"/>
+          <field name="articulos" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Cantidad de Platos Creados por Usuario -->
+    <record id="view_usuario_graph_platos" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Platos por Usuario</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Platos Creados por Usuario" type="bar">
+          <field name="nombre" groupby="nombre"/>
+          <field name="mis_platos" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Cantidad de Platos Aprobados por Usuario -->
+    <record id="view_usuario_graph_platos_aprobados" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Platos Aprobados por Usuario</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Platos Aprobados por Usuario" type="bar">
+          <field name="nombre" groupby="nombre"/>
+          <field name="mis_platos_aprobados" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Usuarios por Rol Actual -->
+    <record id="view_usuario_graph_roles" model="ir.ui.view">
+      <field name="name">Vista Gráfica de Usuarios por Rol</field>
+      <field name="model">vilaexplorer.usuario</field>
+      <field name="arch" type="xml">
+        <graph string="Usuarios por Rol" type="pie">
+          <field name="rol_actual_id" groupby="rol_actual_id"/>
+          <field name="id" operator="count"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Acciones para abrir las vistas gráficas de usuarios -->
+    <record id="action_open_usuario_graficos" model="ir.actions.act_window">
+      <field name="name">Gráficos de Usuarios</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_usuario_graph_activos"/>
+    </record>
+
+    <record id="action_open_usuario_graficos_creacion" model="ir.actions.act_window">
+      <field name="name">Usuarios por Año</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_usuario_graph_creacion"/>
+    </record>
+
+    <record id="action_open_usuario_graficos_articulos" model="ir.actions.act_window">
+      <field name="name">Artículos por Usuario</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_usuario_graph_articulos"/>
+    </record>
+
+    <record id="action_open_usuario_graficos_platos" model="ir.actions.act_window">
+      <field name="name">Platos por Usuario</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_usuario_graph_platos"/>
+    </record>
+
+    <record id="action_open_usuario_graficos_roles" model="ir.actions.act_window">
+      <field name="name">Usuarios por Rol</field>
+      <field name="res_model">vilaexplorer.usuario</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_usuario_graph_roles"/>
+    </record>
+
+
 
 
     <!-- TITULO EN GRANDE DEL MENU -->
@@ -498,7 +683,23 @@
     <menuitem id="menu_gastronomia" name="Gastronomía" parent="menu_principal"/>
     <menuitem id="menu_articulos" name="Articulos" parent="menu_principal" action="action_open_articulos"/>
     <menuitem id="lugar_interes" name="Lugares de interés" parent="menu_principal"/>
-    <menuitem id="graficos_estadisticas" name="Gráficos" parent="menu_principal" action="action_open_graficos" groups="vilaexplorer.group_vilaexplorer_editor,vilaexplorer.group_vilaexplorer_admin"/>
+    <menuitem id="graficos_estadisticas" name="Gráficos Platos" parent="menu_principal" groups="vilaexplorer.group_vilaexplorer_editor,vilaexplorer.group_vilaexplorer_admin"/>
+    <menuitem id="graficos_usuarios" name="Gráficos Usuarios" parent="menu_principal" groups="vilaexplorer.group_vilaexplorer_admin"/>
+
+    <!-- SUBMENU GRAFICOS USUARIOS -->
+
+    <menuitem id="graficos_usuarios_activos" name="Usuarios Activos" parent="graficos_usuarios" action="action_open_usuario_graficos"/>
+    <menuitem id="graficos_usuarios_creacion" name="Usuarios por Año" parent="graficos_usuarios" action="action_open_usuario_graficos_creacion"/>
+    <menuitem id="graficos_usuarios_articulos" name="Artículos por Usuario" parent="graficos_usuarios" action="action_open_usuario_graficos_articulos"/>
+    <menuitem id="graficos_usuarios_platos" name="Platos por Usuario" parent="graficos_usuarios" action="action_open_usuario_graficos_platos"/>
+    <menuitem id="graficos_usuarios_roles" name="Usuarios por Rol" parent="graficos_usuarios" action="action_open_usuario_graficos_roles"/>
+
+    <!-- SUBMENU GRAFICOS PLATOS -->
+    <menuitem id="graficos_platos" name="Platos por Estado" parent="graficos_estadisticas" action="action_open_graficos_estado"/>
+    <menuitem id="graficos_platos_fecha" name="Platos por Año" parent="graficos_estadisticas" action="action_open_graficos_fecha_aprobado"/>
+    <menuitem id="graficos_puntuacion" name="Puntuación por Tipo" parent="graficos_estadisticas" action="action_open_graficos_puntuacion"/>
+    <menuitem id="graficos_autores" name="Platos por Autor" parent="graficos_estadisticas" action="action_open_graficos_autor"/>
+
 
     <!-- SUBMENU DE USUARIOS -->
     <menuitem id="submenu_usuarios_roles" name="Roles" parent="menu_usuarios" action="action_open_roles"/>
