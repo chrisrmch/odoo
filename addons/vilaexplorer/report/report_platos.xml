@@ -1,0 +1,161 @@
+<odoo>
+
+    <record id="vilaexplorer_formato_report" model="report.paperformat">
+        <field name="name">formato A4 - Records</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">15</field>
+        <field name="margin_right">12</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_platos" model="ir.actions.report">
+        <field name="name">Informe - Plato</field>
+        <field name="model">vilaexplorer.plato</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">vilaexplorer.report_platos_origin</field>
+        <field name="report_file">vilaexplorer.report_platos_origin</field>
+        <field name="print_report_name">('Receta de - %s' %(object.nombre))</field>
+        <field name="binding_model_id" ref="vilaexplorer.model_vilaexplorer_plato"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="vilaexplorer_formato_report"/>
+    </record>
+
+    <template id="report_platos">
+        <t t-call="web.external_layout">
+
+            <t t-if="True">
+                <style>
+                .status-message {
+                    padding: 10px;
+                    border-radius: 10px;
+                    width: fit-content;
+                    margin-bottom: 15px;
+                    color: white;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .status-pending {
+                    background-color: red;
+                }
+                .status-approved {
+                    background-color: green;
+                }
+                .content-container {
+                    margin: 20px;
+                    padding: 15px;
+                    border-radius: 10px;
+                    box-shadow: 2px 2px 10px #ccc;
+                    font-size: 18px;
+                }
+                .recipe-image {
+                    max-width: 200px;
+                    border-radius: 10px;
+                    box-shadow: 5px 5px 10px #888;
+                }
+                h2 {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+                .info-list {
+                    font-size: 18px;
+                    padding-top: 20px;
+                }
+                </style>
+            </t>
+
+
+            <div class="page">
+                <xpath expr="//div[hasclass('header')]" position="replace">
+                    <div style="display: flex; justify-content: flex-end; width: 100%; margin-bottom: 20px;">
+
+                        <t t-set="companyInfo" t-value="request.env['res.company'].search([('name', '=', 'Vilaexplorer')], limit=1)"/>
+                        <t t-set="moduleInfo" t-value="request.env['ir.module.module'].search([('name', '=', 'vilaexplorer')], limit=1)"/>
+
+                        <div style="display: flex; flex-direction: row; align-items: flex-end; text-align: right; width:100%;">
+
+                            <img t-att-src="image_data_uri(companyInfo.logo)" style="max-width: 100px; border-radius: 10px;"/>
+
+                            <h1 style="font-size: 24px; font-weight: bold;">
+                                <t t-esc="moduleInfo.name"/>
+                            </h1>
+
+                            <p style="font-size: 14px; color: #666;"> 
+                            Fecha de generación: <span t-esc="o.create_date.strftime('%d/%m/%Y') if o.create_date else (datetime.now().strftime('%d/%m/%Y'))"/>
+                            </p>
+
+                            <p style="font-size: 14px; color: #333;">
+                                <t t-esc="moduleInfo.description"/>
+                            </p>
+
+                        </div>
+                    </div>
+                    <hr size="1px" color="black"/>
+                    <br/>
+                </xpath>
+                <div class="content-container">
+                    <center>
+                        <t t-if="o.estado == False">
+                            <div class="status-message status-pending">
+                Este plato todavía no ha sido aprobado para publicarse
+                            </div>
+                        </t>
+                        <t t-else="o.estado == True">
+                            <div class="status-message status-approved">
+                Este plato ha sido aprobado para publicarse
+                            </div>
+                        </t>
+                    </center>
+                    <div class="row">
+                        <div class="col-3">
+                            <t t-if="o.image_1920">
+                                <img t-att-src="image_data_uri(o.image_1920)" class="recipe-image"/>
+                            </t>
+                        </div>
+                        <div class="col-9">
+                            <h2>
+                                <span t-field="o.nombre"/>
+                            </h2>
+                            <ul class="info-list">
+                                <li>Puntuación: <span t-field="o.puntuacion"/>
+                                </li>
+                                <li>Estado de aprobación: <span t-field="o.estado"/>
+                                </li>
+                                <li>Autor: <span t-field="o.autor_id"/>
+ (                                <span t-field="o.autor_id.email"/>
+)</li>
+                            <li>Aprobador: <span t-field="o.aprobador_id"/>
+ (                            <span t-field="o.aprobador_id.email"/>
+)</li>
+                        <li>Fecha de aprobación: <span t-field="o.fecha_aprobado"/>
+                        </li>
+                    </ul>
+                    <ul class="info-list">
+                        <li t-if="o.descripcion">Descripción: <span t-field="o.descripcion"/>
+                        </li>
+                        <li t-if="o.ingredientes">Ingredientes: <span t-field="o.ingredientes"/>
+                        </li>
+                        <li t-if="o.receta">Receta: <span t-field="o.receta"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+</template>
+
+<template id="report_platos_origin">
+<t t-call="web.html_container" pageLayout="single">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="vilaexplorer.report_platos"/>
+    </t>
+</t>
+</template>
+</odoo>

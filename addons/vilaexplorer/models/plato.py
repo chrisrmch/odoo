@@ -6,10 +6,10 @@ from odoo import models, fields, api, exceptions  # type: ignore
 class Plato(models.Model):
     _name = 'vilaexplorer.plato'
     _description = 'Entidad que representa un plato en la base de datos'
-    _inherit = ['image.mixin']
+    _inherit = 'image.mixin'
     _rec_name = "nombre"
 
-    id_plato = fields.Integer(
+    id = fields.Integer(
         string='ID Plato', 
         required=True, 
         index=True, 
@@ -17,38 +17,44 @@ class Plato(models.Model):
         readonly=True,
         help='Identificador único del plato.'
     )
+    puntuacion = fields.Integer(
+        string='Puntuación',
+        related='puntuacionUser',
+        readonly=True,
+        help='Puntuación calculada basada en la puntuación del usuario'
+    )
+    puntuacionUser = fields.Integer(string='puntuacionUser')
     nombre = fields.Char(
         string='Nombre del Plato', 
         required=True,
         help='Nombre descriptivo del plato.',
-        placeholder='Introduce el nombre del plato...',
         max_width=150
     )
     descripcion = fields.Text(
         string='Descripción', 
         required=True,
         help='Descripción breve del plato.',
-        placeholder='Escribe una descripción...',
-        max_height=500
+        placeholder='Escribe una descripción...'
     )
     ingredientes = fields.Text(
         string='Ingredientes', 
         required=True,
         help='Lista de ingredientes del plato.',
-        placeholder='Escribe los ingredientes aquí...',
-        max_height=300
     )
     receta = fields.Text(
         string='Receta', 
         required=True,
         help='Instrucciones para preparar el plato.',
         placeholder='Escribe la receta aquí...',
-        max_height=1000
     )
     estado = fields.Boolean(
         string='Estado de Aprobación', 
         default=False,
         help='Indica si el plato ha sido aprobado.'
+    )
+    fecha_aprobado = fields.Datetime(
+        string='Fecha de Aprobación',
+        readonly=False,
     )
     tipo_plato_id = fields.Many2one(
         comodel_name='vilaexplorer.tipo_plato', 
@@ -56,6 +62,7 @@ class Plato(models.Model):
         required=True,
         help='Tipo al que pertenece el plato.'
     )
+    
     autor_id = fields.Many2one(
         comodel_name='vilaexplorer.usuario', 
         string='Autor', 

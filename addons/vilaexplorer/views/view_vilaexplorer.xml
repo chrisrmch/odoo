@@ -43,11 +43,12 @@
       <field name="model">vilaexplorer.usuario</field>
       <field name="arch" type="xml">
         <tree string="Usuarios">
-          <field name="nombre" string="Nombre" width="20%"/>
+          <field name="nombre" widget="badge" decoration-success="activo == True" decoration-danger="activo == False" string="Nombre" width="10%"/>
           <field name="email" string="Correo Electrónico" width="20%"/>
-          <field name="activo" string="Activo" width="10%"/>
-          <field name="fecha_creacion" string="Fecha de Creación" width="20%"/>
-          <field name="rol_actual_id" string="Rol Actual" width="20%"/>
+          <field name="activo" string="Activo" width="5%"/>
+          <field name="fecha_creacion" string="Fecha de Creación" width="10%"/>
+          <field name="rol_actual_id" string="Rol Actual" width="10%"/>
+          <field name="image_1920" widget="image" string="Foto de perfil" options="{'size':[100, 80]}"/>
         </tree>
       </field>
     </record>
@@ -66,6 +67,7 @@
               <field name="activo"/>
               <field name="fecha_creacion"/>
               <field name="rol_actual_id"/>
+              <field name="image_1920" widget="image" options="{'size':[100,80]}"/>
               <!-- Mostrar roles históricos -->
               <field name="roles">
                 <tree string="Roles Históricos">
@@ -131,14 +133,121 @@
       <field name="name">vilaexplorer.plato.tree</field>
       <field name="model">vilaexplorer.plato</field>
       <field name="arch" type="xml">
-        <tree string="Platos">
-          <field name="nombre" string="Nombre del Plato" width="20%"/>
+        <tree string="Platos" decoration-muted="estado == False" decoration-success="estado == True">
+          <field name="nombre" widget="badge" decoration-danger="estado == False" decoration-success="estado == True" string="Nombre del Plato" width="20%"/>
           <field name="descripcion" string="Descripción" width="30%"/>
           <field name="tipo_plato_id" string="Tipo de Plato" width="20%"/>
           <field name="estado" string="Estado de Aprobación" width="20%"/>
           <field name="autor_id" string="Autor" width="10%"/>
           <field name="image_128" widget="image" string="Imagen" class="oe_avatar"/>
         </tree>
+      </field>
+    </record>
+
+    <!-- VISTA KANBAN -->
+    <record id="view_kanban_plato" model="ir.ui.view">
+      <field name="name">vilaexplorer.plato.kanban</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="type">kanban</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="id"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_global_click">
+                <div class="o_kanban_image">
+                  <img alt="Imagen del plato" t-att-src="kanban_image('vilaexplorer.plato', 'image_128', record.id.raw_value)" class="o_image_64_contain"/>
+                </div>
+                <div class="oe_kanban_details">
+                  <strong class="o_kanban_record_title">
+                    <field name="nombre" />
+                  </strong>
+                  <div>
+                    <strong>Descripción:</strong>
+                    <field name="descripcion"/>
+                  </div>
+                  <div>
+                    <strong>Ingredientes:</strong>
+                    <field name="ingredientes"/>
+                  </div>
+                  <div>
+                    <strong>Receta:</strong>
+                    <field name="receta"/>
+                  </div>
+                  <div>
+                    <strong>Estado:</strong>
+                    <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                  </div>
+                  <div>
+                    <strong>Fecha de aprobación:</strong>
+                    <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                  </div>
+                  <div>
+                    <strong>Tipo de plato:</strong>
+                    <field name="tipo_plato_id"/>
+                  </div>
+                  <div>
+                    <strong>Autor:</strong>
+                    <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                  </div>
+                  <div>
+                    <strong>Aprobador:</strong>
+                    <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!-- VISTA CALENDAR -->
+    <record id="view_plato_calendar" model="ir.ui.view">
+      <field name="name">view.plato.calendar</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <calendar string="Calendario de platos" date_start="fecha_aprobado" color="estado" quick_add="True" mode="month" event_open_popup="1">
+          <field name="nombre"/>
+          <field name="descripcion"/>
+          <field name="ingredientes"/>
+          <field name="receta"/>
+          <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="tipo_plato_id"/>
+          <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+        </calendar>
+      </field>
+    </record>
+
+    <!-- VISTA SEARCH -->
+    <record id="view_plato_search" model="ir.ui.view">
+      <field name="name">view.plato.search</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <search>
+
+          <field name="nombre"/>
+          <field name="descripcion"/>
+          <field name="ingredientes"/>
+          <field name="receta"/>
+          <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="tipo_plato_id"/>
+          <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+
+          <!-- Filtros -->
+          <filter string="Platos con alta puntuación" name="alta_puntuacion" domain="[('puntuacion', '>=', 80)]"/>
+          <filter string="Platos que ya han sido aprobados" name="aprobados" domain="[('estado', '=', True)]"/>
+
+          <!-- Grupo -->
+          <group expand="0" string="Group By">
+            <filter string="Por fecha de aprobado" name="group_by_date_of_aproval" context="{'group_by': 'fecha_aprobado'}"/>
+            <filter string="Por estado" name="group_by_state" context="{'group_by': 'estado'}"/>
+          </group>
+        </search>
       </field>
     </record>
 
@@ -149,17 +258,32 @@
       <field name="arch" type="xml">
         <form string="Plato">
           <sheet>
-            <group>
-              <field name="nombre"/>
-              <field name="descripcion"/>
-              <field name="ingredientes"/>
-              <field name="receta"/>
-              <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin"/>
-              <field name="tipo_plato_id"/>
-              <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin"/>
-              <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin"/>
-              <!-- Utilizar image_1920 para mostrar la imagen en la vista tipo Form -->
-              <field name="image_1920" widget="image" class="oe_avatar" style="max-width: 256px; max-height: 256px;"/>
+            <group style="display: flex; justify-content: center;">
+              <h1 style="display: flex;flex-direction: column;width: 500px;">
+                <field name="nombre" style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 15px;" />
+                <div style="display: flex;flex-direction: column;align-items: center;gap: 10px;margin-bottom: 20px;width: 400px;align-self: center;">
+                  <div style="display: flex;flex-direction: row;padding: 10px;width: 100%;justify-content: space-between;">
+                    <div style="font-size: 18px;color: #443c3c;display: flex;font-weight: bold;">
+                      <strong style="align-self: center;">Tu puntuación:</strong>
+                    </div>
+                    <div style="display: flex;flex-direction: column;width: 4rem;">
+                      <field name="puntuacion" widget="percentpie" readonly="1" style="width: 60px; height: 60px; font-size: 12px;"/>
+                      <field name="puntuacionUser" placeholder="Puntuación del usuario" style="font-size: 15px; color: #444; text-align: center; margin-top: 10px;" />
+                    </div>
+                  </div>
+                  <field name="image_1920" widget="image" style="width: 256px; border-raidus:10px !important;"/>
+                </div>
+              </h1>
+              <group>
+                <field name="descripcion"/>
+                <field name="ingredientes"/>
+                <field name="receta"/>
+                <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                <field name="tipo_plato_id"/>
+                <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+                <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+              </group>
             </group>
           </sheet>
         </form>
@@ -170,7 +294,7 @@
     <record id="action_open_plato" model="ir.actions.act_window">
       <field name="name">Platos</field>
       <field name="res_model">vilaexplorer.plato</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">tree,form,kanban,calendar</field>
       <field name="view_id" ref="view_vilaexplorer_plato_tree"/>
     </record>
 
@@ -288,6 +412,27 @@
       <field name="view_id" ref="view_vilaexplorer_articulo_tree"/>
     </record>
 
+       <!-- VISTA GRAPH -->
+
+    <record id="view_plato_graph" model="ir.ui.view">
+      <field name="name">Vista Graficos de platos</field>
+      <field name="model">vilaexplorer.plato</field>
+      <field name="arch" type="xml">
+        <graph string="Graficos platos" type="pie">
+          <field name="fecha_aprobado" interval="year"/>
+          <field name="estado"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Acción para abrir la vista de Graficos -->
+    <record id="action_open_graficos" model="ir.actions.act_window">
+      <field name="name">Artículos</field>
+      <field name="res_model">vilaexplorer.plato</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_plato_graph"/>
+    </record>
+
     <!-- Definición de la vista Tree para Lugares de Interés -->
     <record id="view_vilaexplorer_lugar_interes_tree" model="ir.ui.view">
       <field name="name">vilaexplorer.lugar_interes.tree</field>
@@ -376,6 +521,7 @@
     <menuitem id="menu_gastronomia" name="Gastronomía" parent="menu_principal"/>
     <menuitem id="menu_articulos" name="Articulos" parent="menu_principal" action="action_open_articulos"/>
     <menuitem id="lugar_interes" name="Lugares de interés" parent="menu_principal"/>
+    <menuitem id="graficos_estadisticas" name="Gráficos" parent="menu_principal" action="action_open_graficos" groups="vilaexplorer.group_vilaexplorer_editor,vilaexplorer.group_vilaexplorer_admin"/>
 
     <!-- SUBMENU DE USUARIOS -->
     <menuitem id="submenu_usuarios_roles" name="Roles" parent="menu_usuarios" action="action_open_roles"/>

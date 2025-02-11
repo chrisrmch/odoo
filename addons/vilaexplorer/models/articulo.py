@@ -20,7 +20,6 @@ class Articulo(models.Model):
         string='Contenido', 
         required=True,
         help='Texto completo del artículo.',
-        placeholder='Escribe el contenido aquí...',
     )
     fecha_publicacion = fields.Date(
         string='Fecha de Publicación', 
@@ -31,7 +30,6 @@ class Articulo(models.Model):
         string='Título', 
         required=True,
         help='Título descriptivo del artículo.',
-        placeholder='Introduce el título...',
         max_width=200
     )
     autor_id = fields.Many2one(

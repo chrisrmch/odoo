@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api # type: ignore
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -15,7 +15,7 @@ class ResUsers(models.Model):
         
         # self == res.users
         # ResUsers es la instancia de la propia clase 
-        # odoo.addons.vila_explorer.models.resUser.ResUsers
+        # odoo.addons.vilaexplorer.models.resUser.ResUsers
         # vals son todos los valores con los que se crea el usuario en res.users
         user = super(ResUsers, self).create(vals)
         try:
@@ -47,8 +47,8 @@ class ResUsers(models.Model):
                     'activo': True,
                     'rol_actual_id': rol_actual.id if rol_actual else None,
                     'fecha_creacion': fields.Date.today(),
-                }
-                    )
+                    }
+                )
                 _logger.info(f"Usuario creado en vilaexplorer.usuario: {user.id}")
             else:
                 _logger.warning("El usuario ya existe en vilaexplorer.usuario.")
@@ -64,23 +64,23 @@ class ResUsers(models.Model):
         """
         _logger.info(f"vals: {vals}")
 
-        vila_explorer_group_ids = [
-            self.env.ref('vila_explorer.group_vilaexplorer_client').id,
-            self.env.ref('vila_explorer.group_vilaexplorer_admin').id,
-            self.env.ref('vila_explorer.group_vilaexplorer_editor').id,
+        vilaexplorer_group_ids = [
+            self.env.ref('vilaexplorer.group_vilaexplorer_client').id,
+            self.env.ref('vilaexplorer.group_vilaexplorer_admin').id,
+            self.env.ref('vilaexplorer.group_vilaexplorer_editor').id,
         ]
 
         # Procesar grupos seleccionados
         group_keys = [key for key in vals if key.startswith('in_group_')]
         if group_keys:
-            groups_to_remove = [(3, gid) for gid in vila_explorer_group_ids]  # Eliminar todos los grupos
+            groups_to_remove = [(3, gid) for gid in vilaexplorer_group_ids]  # Eliminar todos los grupos
             groups_to_add = [(4, int(key.split('_')[-1])) for key in group_keys if vals[key]]  # Añadir seleccionados
             vals['groups_id'] = groups_to_remove + groups_to_add
             _logger.info(f"Grupos actualizados en groups_id: {vals['groups_id']}")
 
         # Filtrar grupos para mantener solo el último grupo seleccionado
         if 'groups_id' in vals:
-            vals['groups_id'] = self._filter_vila_explorer_groups(vals['groups_id'])
+            vals['groups_id'] = self._filter_vilaexplorer_groups(vals['groups_id'])
             _logger.info(f"Grupos después de filtrar: {vals['groups_id']}")
 
         # Actualizar usuario en el modelo base
@@ -151,20 +151,20 @@ class ResUsers(models.Model):
 
 
 
-    def _filter_vila_explorer_groups(self, groups):
+    def _filter_vilaexplorer_groups(self, groups):
         """
         Mantiene solo el último grupo de Vila Explorer seleccionado.
         """
-        vila_explorer_group_ids = [
-            self.env.ref('vila_explorer.group_vilaexplorer_client').id,
-            self.env.ref('vila_explorer.group_vilaexplorer_admin').id,
-            self.env.ref('vila_explorer.group_vilaexplorer_editor').id,
+        vilaexplorer_group_ids = [
+            self.env.ref('vilaexplorer.group_vilaexplorer_client').id,
+            self.env.ref('vilaexplorer.group_vilaexplorer_admin').id,
+            self.env.ref('vilaexplorer.group_vilaexplorer_editor').id,
         ]
 
         # Obtener el último grupo seleccionado
-        selected_vila_groups = [group_id for op, group_id in groups if op == 4 and group_id in vila_explorer_group_ids]
+        selected_vila_groups = [group_id for op, group_id in groups if op == 4 and group_id in vilaexplorer_group_ids]
 
         # Eliminar todos los grupos de Vila Explorer y añadir solo el último seleccionado
         if selected_vila_groups:
-            return [(3, gid) for gid in vila_explorer_group_ids] + [(4, selected_vila_groups[-1])]
+            return [(3, gid) for gid in vilaexplorer_group_ids] + [(4, selected_vila_groups[-1])]
         return groups

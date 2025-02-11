@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields  # type: ignore
+from odoo import fields, models  # type: ignore
 
 # Modelo Usuario
-class Usuario(models.Model): # type: ignore
+class Usuario(models.Model):
     _name = 'vilaexplorer.usuario'
     _description = 'Modelo para la entidad Usuario'
     _rec_name = "nombre"
+    _inherit = 'image.mixin'
 
     id_usuario = fields.Integer(
         string='ID Usuario', required=True, readonly=True,

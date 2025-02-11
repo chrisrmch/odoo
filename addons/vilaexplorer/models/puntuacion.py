@@ -17,8 +17,9 @@ class Puntuacion(models.Model):
     )
     
     puntuacion = fields.Integer(
-        string='Puntuación', 
-        required=True
+        string='Puntuación',
+        required=True,
+        help="Valoración del usuario sobre el plato (1-5 estrellas)."
     )
     
     usuario_id = fields.Many2one(
@@ -49,11 +50,6 @@ class Puntuacion(models.Model):
         store=True,
         help='Promedio de todas las puntuaciones registradas para la misma entidad.'
     )
-
-    _sql_constraints = [
-        ('puntuacion_range', 'CHECK(puntuacion >= 1 AND puntuacion <= 5)', 'La puntuación debe estar entre 1 y 5.')
-    ]
-
     @api.depends('id_entidad', 'tipo_entidad')
     def _compute_promedio_puntuacion(self):
         for record in self:
@@ -65,3 +61,7 @@ class Puntuacion(models.Model):
                 record.promedio_puntuacion = sum(p.puntuacion for p in puntuaciones) / len(puntuaciones)
             else:
                 record.promedio_puntuacion = 0.0
+                
+    _sql_constraints = [
+        ('puntuacion_range', 'CHECK(puntuacion BETWEEN 1 AND 5)', 'La puntuación debe estar entre 1 y 5.')
+    ]
