@@ -187,13 +187,8 @@
         <calendar string="Calendario de platos" date_start="fecha_aprobado" color="estado" quick_add="True" mode="month" event_open_popup="1">
           <field name="nombre"/>
           <field name="descripcion"/>
-          <field name="ingredientes"/>
-          <field name="receta"/>
-          <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
-          <field name="fecha_aprobado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
           <field name="tipo_plato_id"/>
-          <field name="autor_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
-          <field name="aprobador_id" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
+          <field name="estado" groups="vilaexplorer.group_vilaexplorer_admin,vilaexplorer.group_vilaexplorer_editor"/>
         </calendar>
       </field>
     </record>
@@ -683,8 +678,13 @@
     <menuitem id="menu_gastronomia" name="Gastronomía" parent="menu_principal"/>
     <menuitem id="menu_articulos" name="Articulos" parent="menu_principal" action="action_open_articulos"/>
     <menuitem id="lugar_interes" name="Lugares de interés" parent="menu_principal"/>
-    <menuitem id="graficos_estadisticas" name="Gráficos Platos" parent="menu_principal" groups="vilaexplorer.group_vilaexplorer_editor,vilaexplorer.group_vilaexplorer_admin"/>
-    <menuitem id="graficos_usuarios" name="Gráficos Usuarios" parent="menu_principal" groups="vilaexplorer.group_vilaexplorer_admin"/>
+
+
+    <menuitem id="graficos_estadisticas" name="Gráficos Platos" parent="menu_principal" 
+    groups="vilaexplorer.group_vilaexplorer_editor,vilaexplorer.group_vilaexplorer_admin"/>
+    
+    <menuitem id="graficos_usuarios" name="Gráficos Usuarios" 
+    parent="menu_principal" groups="vilaexplorer.group_vilaexplorer_admin"/>
 
     <!-- SUBMENU GRAFICOS USUARIOS -->
 
